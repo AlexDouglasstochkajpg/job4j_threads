@@ -23,16 +23,17 @@ public class AccountStorage {
     }
 
     public synchronized boolean transfer(int fromId, int toId, int amount) {
-        boolean result = false;
+        if (amount <= 0 || fromId == toId) {
+            return false;
+        }
         Optional<Account> from = getById(fromId);
         Optional<Account> to = getById(toId);
-        if (from.isPresent() && to.isPresent() && from.get().amount() >= amount && amount > 0 && fromId != toId) {
+        if (from.isPresent() && to.isPresent() && from.get().amount() >= amount) {
             update(new Account(fromId, from.get().amount() - amount));
             update(new Account(toId, to.get().amount() + amount));
-            result = true;
-
+            return true;
         }
-        return result;
+        return false;
     }
 }
 
