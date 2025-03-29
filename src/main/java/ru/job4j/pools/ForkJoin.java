@@ -22,7 +22,7 @@ public class ForkJoin<T> extends RecursiveTask<Integer> {
         if (finish - start < 10) {
             return findIndex();
         }
-        int mid = (array.length - 1) / 2;
+        int mid = (start + finish) / 2;
         ForkJoin<T> first = new ForkJoin<>(array, value, start, mid);
         ForkJoin<T> second = new ForkJoin<>(array, value, mid + 1, array.length - 1);
         first.fork();
