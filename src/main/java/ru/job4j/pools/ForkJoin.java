@@ -24,7 +24,7 @@ public class ForkJoin<T> extends RecursiveTask<Integer> {
         }
         int mid = (start + finish) / 2;
         ForkJoin<T> first = new ForkJoin<>(array, value, start, mid);
-        ForkJoin<T> second = new ForkJoin<>(array, value, mid + 1, array.length - 1);
+        ForkJoin<T> second = new ForkJoin<>(array, value, mid + 1, finish);
         first.fork();
         second.fork();
         int left = first.join();
