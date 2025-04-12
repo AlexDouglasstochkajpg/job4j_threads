@@ -1,10 +1,11 @@
 package ru.job4j.pools;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
-import static junit.framework.Assert.assertEquals;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class RolColSumTest {
 
@@ -16,15 +17,16 @@ class RolColSumTest {
                 {7, 8, 9}
         };
         Sums[] data = RolColSum.sum(array);
+        int[][] actual = Arrays.stream(data)
+                .map(s -> new int[]{s.getRowSum(), s.getColSum()})
+                .toArray(int[][]::new);
+
         int[][] expected = {
                 {6, 12},
                 {15, 15},
                 {24, 18}
         };
-        for (int i = 0; i < array.length; i++) {
-            assertEquals(expected[i][0], data[i].getRowSum());
-            assertEquals(expected[i][1], data[i].getColSum());
-        }
+        assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -35,14 +37,14 @@ class RolColSumTest {
                 {7, 8, 9}
         };
         Sums[] data = RolColSum.asyncSum(array);
+        int[][] actual = Arrays.stream(data)
+                .map(s -> new int[]{s.getRowSum(), s.getColSum()})
+                .toArray(int[][]::new);
         int[][] expected = {
                 {6, 12},
                 {15, 15},
                 {24, 18}
         };
-        for (int i = 0; i < array.length; i++) {
-            assertEquals(expected[i][0], data[i].getRowSum());
-            assertEquals(expected[i][1], data[i].getColSum());
-        }
+        assertArrayEquals(expected, actual);
     }
 }
