@@ -2,10 +2,7 @@ package ru.job4j.pools;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class RolColSumTest {
 
@@ -16,35 +13,26 @@ class RolColSumTest {
                 {4, 5, 6},
                 {7, 8, 9}
         };
-        Sums[] data = RolColSum.sum(array);
-        int[][] actual = Arrays.stream(data)
-                .map(s -> new int[]{s.getRowSum(), s.getColSum()})
-                .toArray(int[][]::new);
 
-        int[][] expected = {
-                {6, 12},
-                {15, 15},
-                {24, 18}
-        };
-        assertArrayEquals(expected, actual);
+        Sums[] expected = new Sums[]{new Sums(6, 12),
+                new Sums(15, 15),
+                new Sums(24, 18)};
+
+        assertThat(RolColSum.sum(array)).isEqualTo(expected);
     }
 
     @Test
-    void asyncSum() throws ExecutionException, InterruptedException {
+    void asyncSum() {
         int[][] array = {
                 {1, 2, 3},
                 {4, 5, 6},
                 {7, 8, 9}
         };
-        Sums[] data = RolColSum.asyncSum(array);
-        int[][] actual = Arrays.stream(data)
-                .map(s -> new int[]{s.getRowSum(), s.getColSum()})
-                .toArray(int[][]::new);
-        int[][] expected = {
-                {6, 12},
-                {15, 15},
-                {24, 18}
-        };
-        assertArrayEquals(expected, actual);
+
+        Sums[] expected = new Sums[]{new Sums(6, 12),
+                new Sums(15, 15),
+                new Sums(24, 18)};
+
+        assertThat(RolColSum.asyncSum(array)).isEqualTo(expected);
     }
 }
